@@ -14,6 +14,14 @@ const IndexScreen = ({ navigation }) => {
 
   useEffect(() => {
     getBlogPosts();
+
+    const listener = navigation.addListener("didFocus", () => {
+      getBlogPosts();
+    });
+
+    return () => {
+      listener.remove();
+    };
   }, []);
 
   return (
@@ -22,7 +30,6 @@ const IndexScreen = ({ navigation }) => {
         data={state}
         keyExtractor={(blogPost) => blogPost.title}
         renderItem={({ item }) => {
-          console.log(item);
           return (
             <TouchableOpacity
               key={item.title}
